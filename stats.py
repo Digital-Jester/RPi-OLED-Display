@@ -80,7 +80,7 @@ draw.rectangle((0,0,width,height), outline=0, fill=0)
 # First define some constants to allow easy resizing of shapes.
 padding = 1
 top = 0
-size = 14
+size = 16
 bottom = height-padding
 # Move left to right keeping track of the current x position for drawing shapes.
 x = 0
@@ -91,8 +91,8 @@ x = 0
 # Alternatively load a TTF font.  Make sure the .ttf font file is in the same directory as the python script!
 # Some other nice fonts to try: http://www.dafont.com/bitmap.php
 # font = ImageFont.truetype('Minecraftia.ttf', 8)
-# font = ImageFont.truetype('PixelOperator.ttf', 16)
-font = ImageFont.truetype('STV5730A.ttf', 14)
+#font = ImageFont.truetype('PixelOperator.ttf', 16)
+#font = ImageFont.truetype('STV5730A.ttf', 14)
 
 while True:
 
@@ -113,8 +113,10 @@ while True:
 
     # Write two lines of text.
     top = 0
+    font = ImageFont.truetype('STV5730A.ttf', 14)
     draw.text((x, top),       "IP: " + str(IP,'utf-8'),  font=font, fill=255)
     top = top + padding + size
+    ont = ImageFont.truetype('PixelOperator.ttf', 16)
     draw.text((x, top),     str(CPU,'utf-8') + "  " + str(Temp,'utf-8'), font=font, fill=255)
     top = top + padding + size
     draw.text((x, top),    str(MemUsage,'utf-8'),  font=font, fill=255)
