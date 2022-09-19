@@ -78,7 +78,7 @@ draw.rectangle((0,0,width,height), outline=0, fill=0)
 
 # Draw some shapes.
 # First define some constants to allow easy resizing of shapes.
-padding = 2
+padding = 1
 top = padding
 size = 16
 bottom = height-padding
