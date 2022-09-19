@@ -91,7 +91,8 @@ x = 0
 # Alternatively load a TTF font.  Make sure the .ttf font file is in the same directory as the python script!
 # Some other nice fonts to try: http://www.dafont.com/bitmap.php
 # font = ImageFont.truetype('Minecraftia.ttf', 8)
-font = ImageFont.truetype('PixelOperator.ttf', size)
+# font = ImageFont.truetype('PixelOperator.ttf', 16)
+font = ImageFont.truetype('STV5730A.ttf', 14)
 
 while True:
 
