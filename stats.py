@@ -80,7 +80,7 @@ draw.rectangle((0,0,width,height), outline=0, fill=0)
 # First define some constants to allow easy resizing of shapes.
 padding = 1
 top = 0
-size = 16
+size = 10
 bottom = height-padding
 # Move left to right keeping track of the current x position for drawing shapes.
 x = 0
@@ -102,7 +102,7 @@ while True:
     # Shell scripts for system monitoring from here : https://unix.stackexchange.com/questions/119126/command-to-display-memory-usage-disk-usage-and-cpu-load
     cmd = "hostname -I | cut -d\' \' -f1"
     IP = subprocess.check_output(cmd, shell = True )
-    cmd = "top -bn1 | grep load | awk '{printf \"CPU: %.2f\", $(NF-2)}'"
+    cmd = "top -bn1 | grep load | awk '{printf \"CPU: %.2f%%\", $(NF-2)}'"
     CPU = subprocess.check_output(cmd, shell = True )
     cmd = "free -m | awk 'NR==2{printf \"Mem: %s/%sMB %.2f%%\", $3,$2,$3*100/$2 }'"
     MemUsage = subprocess.check_output(cmd, shell = True )
@@ -110,6 +110,8 @@ while True:
     Disk = subprocess.check_output(cmd, shell = True )
     cmd = "vcgencmd measure_temp |cut -f 2 -d '='"
     Temp = subprocess.check_output(cmd, shell = True )
+    cmd = "uptime | awk '{print $3,$4}' | cut -f1 -d,"
+    UpTime = subprocess.check_output(cmd, shell = True )
 
     # Write Pi Stats.
     top = 0
@@ -117,11 +119,13 @@ while True:
     draw.text((x, top),       "IP: " + str(IP,'utf-8'),  font=font, fill=255)
     top = top + padding + size
     #font = ImageFont.truetype('PixelOperator.ttf', 16)
-    draw.text((x, top),     str(CPU,'utf-8') + "LA " + str(Temp,'utf-8'), font=font, fill=255)
+    draw.text((x, top),     str(CPU,'utf-8') + " " + str(Temp,'utf-8'), font=font, fill=255)
     top = top + padding + size
     draw.text((x, top),    str(MemUsage,'utf-8'),  font=font, fill=255)
     top = top + padding + size
     draw.text((x, top),    str(Disk,'utf-8'),  font=font, fill=255)
+    top = top + padding + size
+    draw.text((x, top),    "Up Time:" + str(UpTime,'utf-8'),  font=font, fill=255)
 
     # Display image.
     disp.image(image)
