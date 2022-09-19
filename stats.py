@@ -79,7 +79,7 @@ draw.rectangle((0,0,width,height), outline=0, fill=0)
 # Draw some shapes.
 # First define some constants to allow easy resizing of shapes.
 padding = 1
-top = padding
+top = 0
 size = 16
 bottom = height-padding
 # Move left to right keeping track of the current x position for drawing shapes.
@@ -111,7 +111,7 @@ while True:
     Temp = subprocess.check_output(cmd, shell = True )
 
     # Write two lines of text.
-    top = padding
+    top = 0
     draw.text((x, top),       "IP: " + str(IP,'utf-8'),  font=font, fill=255)
     top = top + padding + size
     draw.text((x, top),     str(CPU,'utf-8') + "  " + str(Temp,'utf-8'), font=font, fill=255)
