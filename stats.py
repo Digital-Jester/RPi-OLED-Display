@@ -116,7 +116,7 @@ while True:
     font = ImageFont.truetype('STV5730A.ttf', 14)
     draw.text((x, top),       "IP: " + str(IP,'utf-8'),  font=font, fill=255)
     top = top + padding + size
-    ont = ImageFont.truetype('PixelOperator.ttf', 16)
+    font = ImageFont.truetype('PixelOperator.ttf', 16)
     draw.text((x, top),     str(CPU,'utf-8') + "  " + str(Temp,'utf-8'), font=font, fill=255)
     top = top + padding + size
     draw.text((x, top),    str(MemUsage,'utf-8'),  font=font, fill=255)
