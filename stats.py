@@ -120,7 +120,7 @@ while True:
     cmd = "hostname"
     HostName = subprocess.check_output(cmd, shell = True)
     cmd = "df -h | grep '/dev/md\|/dev/sd\|/dev/root' | awk '{printf \"%s/%s (%s), \", $3,$2,$5}'"
-    DrvUse = str(subprocess.check_output(cmd, shell = True ))
+    DrvUse = str(subprocess.check_output(cmd, shell = True ),'utf-8')
     Drv = DrvUse.split(", ")
 
     # Write Pi Stats.
