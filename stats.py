@@ -86,7 +86,9 @@ bottom = height-padding
 x = 0
 
 page = 0
-showtime = 1000
+displaytime = 5
+updatetime = .1
+showtime = displaytime / updatetime
 
 # Load default font.
 font = ImageFont.load_default()
@@ -117,30 +119,37 @@ while True:
     UpTime = subprocess.check_output(cmd, shell = True )
     cmd = "hostname"
     HostName = subprocess.check_output(cmd, shell = True)
+    cmd = "df -h | grep '/dev/md\|/dev/sd\|/dev/root' | awk '{printf \"%s: %s/%s (%s)\n\", $1,$3,$2,$5}'"
+    DrvUse = subprocess.check_output(cmd, shell = True)
 
     # Write Pi Stats.
     top = 0
     if page < showtime:
-        draw.text((x, top),       "IP: " + str(IP,'utf-8'),  font=font, fill=255)
+        draw.text((x, top),    "IP: " + str(IP,'utf-8'),  font=font, fill=255)
         top = top + padding + size
-        draw.text((x, top),     str(CPU,'utf-8') + " " + str(Temp,'utf-8'), font=font, fill=255)
+        draw.text((x, top),    str(CPU,'utf-8') + " " + str(Temp,'utf-8'), font=font, fill=255)
         top = top + padding + size
         draw.text((x, top),    str(MemUsage,'utf-8'),  font=font, fill=255)
         top = top + padding + size
         draw.text((x, top),    str(Disk,'utf-8'),  font=font, fill=255)
         top = top + padding + size
-        draw.text((x, top),    "Up Time: " + str(UpTime,'utf-8'),  font=font, fill=255)
 
-    if page > showtime and page < showtime * 2:
-        draw.text((x, top),       "IP: " + str(IP,'utf-8'),  font=font, fill=255)
+    if page > showtime and page < (showtime * 2):
+        draw.text((x, top),    "IP: " + str(IP,'utf-8'),  font=font, fill=255)
         top = top + padding + size
-        draw.text((x, top),    str(HostName,'utf-8'),  font=font, fill=255)
+        draw.text((x, top),    "Host Name: " + str(HostName,'utf-8'),  font=font, fill=255)
         top = top + padding + size
+        draw.text((x, top),    "Up Time: " + str(UpTime,'utf-8'),  font=font, fill=255)
+        top = top + padding + size
+
+    if page > (showtime * 2) and page < (showtime * 3):
+        draw.text((x, top),    str(DrvUse,'utf-8'),  font=font, fill=255)
 
     # Display image.
     disp.image(image)
     disp.display()
     page += 1
-    if page > showtime * 2:
-        page = 0 
-    time.sleep(.1)
+    if page > (showtime * 3):
+        page = 0
+
+    time.sleep(updatetime)
