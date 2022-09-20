@@ -85,6 +85,9 @@ bottom = height-padding
 # Move left to right keeping track of the current x position for drawing shapes.
 x = 0
 
+page = 0
+showtime = 1000
+
 # Load default font.
 font = ImageFont.load_default()
 
@@ -102,7 +105,7 @@ while True:
     # Shell scripts for system monitoring from here : https://unix.stackexchange.com/questions/119126/command-to-display-memory-usage-disk-usage-and-cpu-load
     cmd = "hostname -I | cut -d\' \' -f1"
     IP = subprocess.check_output(cmd, shell = True )
-    cmd = "top -bn1 | grep load | awk '{printf \"CPU: %.2f%%\", $(NF-2)}'"
+    cmd = "top -bn1 | grep load | awk '{printf \"CPU: %.2f\", $(NF-2)}'"
     CPU = subprocess.check_output(cmd, shell = True )
     cmd = "free -m | awk 'NR==2{printf \"Mem: %s/%sMB %.2f%%\", $3,$2,$3*100/$2 }'"
     MemUsage = subprocess.check_output(cmd, shell = True )
@@ -112,22 +115,32 @@ while True:
     Temp = subprocess.check_output(cmd, shell = True )
     cmd = "uptime | awk '{print $3,$4}' | cut -f1 -d,"
     UpTime = subprocess.check_output(cmd, shell = True )
+    cmd = "hostname"
+    HostName = subprocess.check_output(cmd, shell = True)
 
     # Write Pi Stats.
     top = 0
-    #font = ImageFont.truetype('STV5730A.ttf', 14)
-    draw.text((x, top),       "IP: " + str(IP,'utf-8'),  font=font, fill=255)
-    top = top + padding + size
-    #font = ImageFont.truetype('PixelOperator.ttf', 16)
-    draw.text((x, top),     str(CPU,'utf-8') + " " + str(Temp,'utf-8'), font=font, fill=255)
-    top = top + padding + size
-    draw.text((x, top),    str(MemUsage,'utf-8'),  font=font, fill=255)
-    top = top + padding + size
-    draw.text((x, top),    str(Disk,'utf-8'),  font=font, fill=255)
-    top = top + padding + size
-    draw.text((x, top),    "Up Time:" + str(UpTime,'utf-8'),  font=font, fill=255)
+    if page < showtime:
+        draw.text((x, top),       "IP: " + str(IP,'utf-8'),  font=font, fill=255)
+        top = top + padding + size
+        draw.text((x, top),     str(CPU,'utf-8') + " " + str(Temp,'utf-8'), font=font, fill=255)
+        top = top + padding + size
+        draw.text((x, top),    str(MemUsage,'utf-8'),  font=font, fill=255)
+        top = top + padding + size
+        draw.text((x, top),    str(Disk,'utf-8'),  font=font, fill=255)
+        top = top + padding + size
+        draw.text((x, top),    "Up Time: " + str(UpTime,'utf-8'),  font=font, fill=255)
+
+    if page > showtime and page < showtime * 2:
+        draw.text((x, top),       "IP: " + str(IP,'utf-8'),  font=font, fill=255)
+        top = top + padding + size
+        draw.text((x, top),    str(HostName,'utf-8'),  font=font, fill=255)
+        top = top + padding + size
 
     # Display image.
     disp.image(image)
     disp.display()
+    page += 1
+    if page > showtime * 2:
+        page = 0 
     time.sleep(.1)
