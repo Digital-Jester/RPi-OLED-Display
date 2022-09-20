@@ -148,6 +148,7 @@ while True:
         while i <= len(Drv):
             draw.text((x, top),    "Drv" + str(i) + ": " + Drv[i],  font=font, fill=255)
             top = top + padding + size
+            i += 1
 
     # Display image.
     disp.image(image)
