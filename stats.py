@@ -86,7 +86,7 @@ bottom = height-padding
 x = 0
 
 page = 0
-displaytime = 5
+displaytime = 2
 updatetime = .1
 showtime = displaytime / updatetime
 
@@ -119,8 +119,9 @@ while True:
     UpTime = subprocess.check_output(cmd, shell = True )
     cmd = "hostname"
     HostName = subprocess.check_output(cmd, shell = True)
-    cmd = "df -h | grep '/dev/md\|/dev/sd\|/dev/root' | awk '{printf \"%s: %s/%s (%s)\n\", $1,$3,$2,$5}'"
-    DrvUse = subprocess.check_output(cmd, shell = True)
+    cmd = "df -h | grep '/dev/md\|/dev/sd\|/dev/root' | awk '{printf \"%s/%s (%s), \", $3,$2,$5}'"
+    DrvUse = subprocess.check_output(cmd, shell = True )
+    DrvUse = DrvUse.split(", ")
 
     # Write Pi Stats.
     top = 0
@@ -143,7 +144,10 @@ while True:
         top = top + padding + size
 
     if page > (showtime * 2) and page < (showtime * 3):
-        draw.text((x, top),    str(DrvUse,'utf-8'),  font=font, fill=255)
+        i = 1
+        while i <= len(DrvUse)
+            draw.text((x, top),    "Drv" + str(i) + ": " +str(DrvUse[i],'utf-8'),  font=font, fill=255)
+            top = top + padding + size
 
     # Display image.
     disp.image(image)
