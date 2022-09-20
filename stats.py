@@ -121,7 +121,7 @@ while True:
     HostName = subprocess.check_output(cmd, shell = True)
     cmd = "df -h | grep '/dev/md\|/dev/sd\|/dev/root' | awk '{printf \"%s/%s (%s), \", $3,$2,$5}'"
     DrvUse = subprocess.check_output(cmd, shell = True )
-    DrvUse = DrvUse.split(", ")
+    Drv = DrvUse.split(", ")
 
     # Write Pi Stats.
     top = 0
@@ -145,8 +145,8 @@ while True:
 
     if page > (showtime * 2) and page < (showtime * 3):
         i = 1
-        while i <= len(DrvUse):
-            draw.text((x, top),    "Drv" + str(i) + ": " +str(DrvUse[i],'utf-8'),  font=font, fill=255)
+        while i <= len(Drv):
+            draw.text((x, top),    "Drv" + str(i) + ": " +str(Drv[i],'utf-8'),  font=font, fill=255)
             top = top + padding + size
 
     # Display image.
