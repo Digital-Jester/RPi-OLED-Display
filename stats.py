@@ -20,7 +20,7 @@
 # THE SOFTWARE.
 import time
 
-import Adafruit_GPIO.SPI as SPI
+#import Adafruit_GPIO.SPI as SPI
 import Adafruit_SSD1306
 
 from PIL import Image
@@ -116,6 +116,7 @@ while True:
     cmd = "vcgencmd measure_temp |cut -f 2 -d '='"
     Temp = subprocess.check_output(cmd, shell = True )
     cmd = "uptime | awk '{print $3,$4}' | cut -f1 -d,"
+    #cmd = "uptime | sed 's/^.*up //' | awk -F \", \" '{print $1,$2}'"
     UpTime = subprocess.check_output(cmd, shell = True )
     cmd = "hostname"
     HostName = subprocess.check_output(cmd, shell = True)
