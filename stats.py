@@ -145,7 +145,7 @@ while True:
 
     if page > (showtime * 2) and page < (showtime * 3):
         i = 1
-        while i <= len(DrvUse)
+        while i <= len(DrvUse):
             draw.text((x, top),    "Drv" + str(i) + ": " +str(DrvUse[i],'utf-8'),  font=font, fill=255)
             top = top + padding + size
 
