@@ -62,7 +62,7 @@ image = Image.open('pi_logo.png').resize((disp.width, disp.height), Image.ANTIAL
 # Display image.
 disp.image(image)
 disp.display()
-time.sleep(5)
+time.sleep(3)
 
 # Create blank image for drawing.
 # Make sure to create image with mode '1' for 1-bit color.
@@ -80,8 +80,8 @@ draw.rectangle((0,0,width,height), outline=0, fill=0)
 # First define some constants to allow easy resizing of shapes.
 padding = 1
 top = 0
-size = 10
-bottom = height-padding
+size = 16
+#bottom = height-padding
 # Move left to right keeping track of the current x position for drawing shapes.
 x = 0
 
@@ -91,12 +91,12 @@ updatetime = .1
 showtime = displaytime / updatetime
 
 # Load default font.
-font = ImageFont.load_default()
+#font = ImageFont.load_default()
 
 # Alternatively load a TTF font.  Make sure the .ttf font file is in the same directory as the python script!
 # Some other nice fonts to try: http://www.dafont.com/bitmap.php
 # font = ImageFont.truetype('Minecraftia.ttf', 8)
-#font = ImageFont.truetype('PixelOperator.ttf', 16)
+font = ImageFont.truetype('PixelOperator.ttf', 16)
 #font = ImageFont.truetype('STV5730A.ttf', 14)
 
 while True:
@@ -119,7 +119,7 @@ while True:
     UpTime = subprocess.check_output(cmd, shell = True )
     cmd = "hostname"
     HostName = subprocess.check_output(cmd, shell = True)
-    cmd = "df -h | grep '/dev/md\|/dev/sd\|/dev/root' | awk '{printf \"%s/%s (%s), \", $3,$2,$5}'"
+    cmd = "df -h | grep '/dev/md\|/dev/sd\|/dev/root' | awk '{printf \"%s/%s %s, \", $3,$2,$5}'"
     DrvUse = str(subprocess.check_output(cmd, shell = True ),'utf-8')
     Drv = DrvUse.split(", ")
 
@@ -145,7 +145,7 @@ while True:
 
     if page > (showtime * 2) and page < (showtime * 3):
         i = 0
-        while i < len(Drv):
+        while i < len(Drv)-1:
             draw.text((x, top),    "Drv" + str(i) + ": " + Drv[i],  font=font, fill=255)
             top = top + padding + size
             i += 1
