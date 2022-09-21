@@ -83,7 +83,7 @@ top = 0
 size = 16
 #bottom = height-padding
 
-page = 0
+page = 1
 displaytime = 2
 updatetime = .1
 showtime = displaytime / updatetime
@@ -127,7 +127,7 @@ while True:
         draw.text((x, top),    str(Disk,'utf-8'),  font=font, fill=255)
         top = top + padding + size
 
-    if page > showtime and page < (showtime * 2):
+    if page >= showtime and page < (showtime * 2):
         # Get Display Info
         cmd = "hostname -I | cut -d\' \' -f1"
         IP = subprocess.check_output(cmd, shell = True )
@@ -145,7 +145,7 @@ while True:
         draw.text((x, top),    "Uptime: " + str(UpTime,'utf-8'),  font=font, fill=255)
         top = top + padding + size
 
-    if page > (showtime * 2) and page < (showtime * 3):
+    if page >= (showtime * 2) and page < (showtime * 3):
         # Get Display Info
         cmd = "df -h | grep '/dev/md\|/dev/sd\|/dev/root' | awk '{printf \"%s/%s %s, \", $3,$2,$5}'"
         DrvUse = str(subprocess.check_output(cmd, shell = True ),'utf-8')
@@ -162,7 +162,7 @@ while True:
     disp.image(image)
     disp.display()
     page += 1
-    if page > (showtime * 3):
-        page = 0
+    if page >= (showtime * 3):
+        page = 1
 
     time.sleep(updatetime)
