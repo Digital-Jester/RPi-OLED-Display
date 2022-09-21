@@ -146,7 +146,7 @@ while True:
         draw.text((x, top),    "Uptime: " + str(UpTime,'utf-8'),  font=font, fill=255)
         top = top + padding + size
 
-    if page >= (showtime * 2) and page < (showtime * 3):
+    if page >= (showtime * 2) and page <= (showtime * 3):
         # Get Display Info
         cmd = "df -h | grep '/dev/md\|/dev/sd\|/dev/root' | awk '{printf \"%s/%s %s, \", $3,$2,$5}'"
         DrvUse = str(subprocess.check_output(cmd, shell = True ),'utf-8')
@@ -161,10 +161,11 @@ while True:
 
     print(page)
     # Display image.
-    #disp.image(image)
+    disp.image(image)
     disp.display()
+
     page += 1
-    if page >= (showtime * 3):
+    if page > (showtime * 3):
         page = 1
 
     time.sleep(updatetime)
