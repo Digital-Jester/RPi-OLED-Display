@@ -82,8 +82,6 @@ padding = 1
 top = 0
 size = 16
 #bottom = height-padding
-# Move left to right keeping track of the current x position for drawing shapes.
-x = 0
 
 page = 0
 displaytime = 2
@@ -104,29 +102,22 @@ while True:
     # Draw a black filled box to clear the image.
     draw.rectangle((0,0,width,height), outline=0, fill=0)
 
-    # Shell scripts for system monitoring from here : https://unix.stackexchange.com/questions/119126/command-to-display-memory-usage-disk-usage-and-cpu-load
-    cmd = "hostname -I | cut -d\' \' -f1"
-    IP = subprocess.check_output(cmd, shell = True )
-    cmd = "top -bn1 | grep load | awk '{printf \"CPU: %.2f\", $(NF-2)}'"
-    CPU = subprocess.check_output(cmd, shell = True )
-    cmd = "free -m | awk 'NR==2{printf \"Mem: %s/%sMB %.2f%%\", $3,$2,$3*100/$2 }'"
-    MemUsage = subprocess.check_output(cmd, shell = True )
-    cmd = "df -h | awk '$NF==\"/\"{printf \"Disk: %d/%dGB %s\", $3,$2,$5}'"
-    Disk = subprocess.check_output(cmd, shell = True )
-    cmd = "vcgencmd measure_temp |cut -f 2 -d '='"
-    Temp = subprocess.check_output(cmd, shell = True )
-    cmd = "uptime | awk '{print $3,$4}' | cut -f1 -d,"
-    #cmd = "uptime | sed 's/^.*up //' | awk -F \", \" '{print $1,$2}'"
-    UpTime = subprocess.check_output(cmd, shell = True )
-    cmd = "hostname"
-    HostName = subprocess.check_output(cmd, shell = True)
-    cmd = "df -h | grep '/dev/md\|/dev/sd\|/dev/root' | awk '{printf \"%s/%s %s, \", $3,$2,$5}'"
-    DrvUse = str(subprocess.check_output(cmd, shell = True ),'utf-8')
-    Drv = DrvUse.split(", ")
-
-    # Write Pi Stats.
+    x = 0
     top = 0
     if page < showtime:
+        # Get Display Info
+        cmd = "hostname -I | cut -d\' \' -f1"
+        IP = subprocess.check_output(cmd, shell = True )
+        cmd = "top -bn1 | grep load | awk '{printf \"CPU: %.2f\", $(NF-2)}'"
+        CPU = subprocess.check_output(cmd, shell = True )
+        cmd = "free -m | awk 'NR==2{printf \"Mem: %s/%sMB %.2f%%\", $3,$2,$3*100/$2 }'"
+        MemUsage = subprocess.check_output(cmd, shell = True )
+        cmd = "df -h | awk '$NF==\"/\"{printf \"Disk: %d/%dGB %s\", $3,$2,$5}'"
+        Disk = subprocess.check_output(cmd, shell = True )
+        cmd = "vcgencmd measure_temp | cut -f 2 -d '='"
+        Temp = subprocess.check_output(cmd, shell = True )
+
+        # Write Info To Display
         draw.text((x, top),    "IP: " + str(IP,'utf-8'),  font=font, fill=255)
         top = top + padding + size
         draw.text((x, top),    str(CPU,'utf-8') + " " + str(Temp,'utf-8'), font=font, fill=255)
@@ -137,14 +128,30 @@ while True:
         top = top + padding + size
 
     if page > showtime and page < (showtime * 2):
+        # Get Display Info
+        cmd = "hostname -I | cut -d\' \' -f1"
+        IP = subprocess.check_output(cmd, shell = True )
+        cmd = "uptime | awk '{print $3,$4}' | cut -f1 -d,"
+        #cmd = "uptime | sed 's/^.*up //' | awk -F \", \" '{print $1,$2}'"
+        UpTime = subprocess.check_output(cmd, shell = True )
+        cmd = "hostname"
+        HostName = subprocess.check_output(cmd, shell = True)
+
+        # Write Info To Display
         draw.text((x, top),    "IP: " + str(IP,'utf-8'),  font=font, fill=255)
         top = top + padding + size
-        draw.text((x, top),    "Host Name: " + str(HostName,'utf-8'),  font=font, fill=255)
+        draw.text((x, top),    "Name: " + str(HostName,'utf-8'),  font=font, fill=255)
         top = top + padding + size
-        draw.text((x, top),    "Up Time: " + str(UpTime,'utf-8'),  font=font, fill=255)
+        draw.text((x, top),    "Uptime: " + str(UpTime,'utf-8'),  font=font, fill=255)
         top = top + padding + size
 
     if page > (showtime * 2) and page < (showtime * 3):
+        # Get Display Info
+        cmd = "df -h | grep '/dev/md\|/dev/sd\|/dev/root' | awk '{printf \"%s/%s %s, \", $3,$2,$5}'"
+        DrvUse = str(subprocess.check_output(cmd, shell = True ),'utf-8')
+        Drv = DrvUse.split(", ")
+
+        # Write Info To Display
         i = 0
         while i < len(Drv)-1:
             draw.text((x, top),    "Drv" + str(i) + ": " + Drv[i],  font=font, fill=255)
