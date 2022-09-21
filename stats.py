@@ -158,6 +158,7 @@ while True:
             top = top + padding + size
             i += 1
 
+    print(page)
     # Display image.
     disp.image(image)
     disp.display()
