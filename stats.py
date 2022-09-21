@@ -161,7 +161,7 @@ while True:
 
     print(page)
     # Display image.
-    disp.image(image)
+    #disp.image(image)
     disp.display()
     page += 1
     if page >= (showtime * 3):
