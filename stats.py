@@ -32,7 +32,7 @@ import subprocess
 import RPi.GPIO as GPIO
 
 BUTTON_GPIO = 4
-BUTTON_PRESSED = False
+button_pressed = False
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(BUTTON_GPIO, GPIO.IN, pull_up_down=GPIO.PUD_UP)
@@ -110,14 +110,14 @@ font = ImageFont.truetype('PixelOperator.ttf', 16)
 
 while True:
     # button is pressed when pin is LOW
-    if not GPIO.input(BUTTON_GPIO) and not BUTTON_PRESSED:
-        BUTTON_PRESSED = True
+    if not GPIO.input(BUTTON_GPIO) and not button_pressed:
+        button_pressed = True
         showpage += 1
         #print("Page Inc")
         if showpage > showpagemax:
             showpage = 1
     else:
-            BUTTON_PRESSED = False
+            button_pressed = False
 
     # Draw a black filled box to clear the image.
     draw.rectangle((0,0,width,height), outline=0, fill=0)
