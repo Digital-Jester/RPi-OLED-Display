@@ -132,11 +132,13 @@ while True:
         # Get Display Info
         cmd = "hostname -I | cut -d\' \' -f1"
         IP = subprocess.check_output(cmd, shell = True )
+        cmd = "hostname"
+        HostName = subprocess.check_output(cmd, shell = True)
         cmd = "uptime | awk '{print $3,$4}' | cut -f1 -d,"
         #cmd = "uptime | sed 's/^.*up //' | awk -F \", \" '{print $1,$2}'"
         UpTime = subprocess.check_output(cmd, shell = True )
-        cmd = "hostname"
-        HostName = subprocess.check_output(cmd, shell = True)
+        cmd = "uptime |cut -d , -f 3|awk '{print $1}'"
+        Users = subprocess.check_output(cmd, shell = True)
 
         # Write Info To Display
         draw.text((x, top),    "IP: " + str(IP,'utf-8'),  font=font, fill=255)
@@ -144,6 +146,8 @@ while True:
         draw.text((x, top),    "Name: " + str(HostName,'utf-8'),  font=font, fill=255)
         top = top + padding + size
         draw.text((x, top),    "Uptime: " + str(UpTime,'utf-8'),  font=font, fill=255)
+        top = top + padding + size
+        draw.text((x, top),    str(Users,'utf-8') + " connected",  font=font, fill=255)
         top = top + padding + size
 
     if page >= (showtime * 2) and page <= (showtime * 3):
@@ -159,7 +163,7 @@ while True:
             top = top + padding + size
             i += 1
 
-    print(page)
+    #print(page)
     # Display image.
     disp.image(image)
     disp.display()
