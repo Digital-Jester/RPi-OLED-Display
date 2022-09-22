@@ -37,14 +37,6 @@ button_pressed = False
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(BUTTON_GPIO, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
-def NextPage(channel):
-    showpage += 1
-    if showpage > showpagemax:
-        showpage = 1
-    print(channel)
-
-GPIO.add_event_detect(BUTTON_GPIO, GPIO.FALLING, callback = NextPage, bouncetime = 2000)
-
 # Raspberry Pi pin configuration:
 RST = None     # on the PiOLED this pin isnt used
 
@@ -116,7 +108,14 @@ showpagemax = 3
 font = ImageFont.truetype('PixelOperator.ttf', 16)
 #font = ImageFont.truetype('STV5730A.ttf', 14)
 
+def NextPage(channel):
+    global showpage, showpagemax
+    showpage += 1
+    if showpage > showpagemax:
+        showpage = 1
+    print(channel)
 
+GPIO.add_event_detect(BUTTON_GPIO, GPIO.FALLING, callback = NextPage, bouncetime = 2000)
 
 while True:
 
