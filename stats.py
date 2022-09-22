@@ -108,17 +108,14 @@ showpagemax = 3
 font = ImageFont.truetype('PixelOperator.ttf', 16)
 #font = ImageFont.truetype('STV5730A.ttf', 14)
 
+def NextPage():
+    showpage += 1
+    if showpage > showpagemax:
+        showpage = 1
+
+GPIO.add_event_detect(BUTTON_GPIO, GPIO.FALLING, callback = NextPage, bouncetime = 2000)
+
 while True:
-    # button is pressed when pin is LOW
-    if not GPIO.input(BUTTON_GPIO):
-        if not button_pressed:
-            button_pressed = True
-            showpage += 1
-            #print("Page Inc")
-            if showpage > showpagemax:
-                showpage = 1
-    else:
-        button_pressed = False
 
     # Draw a black filled box to clear the image.
     draw.rectangle((0,0,width,height), outline=0, fill=0)
