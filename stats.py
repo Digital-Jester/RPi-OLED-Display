@@ -109,24 +109,25 @@ while True:
         cmd = "hostname -I | cut -d\' \' -f1"
         IP = subprocess.check_output(cmd, shell = True )
         cmd = "top -bn1 | grep load | awk '{printf \"CPU: %.2f\", $(NF-2)}'"
-        CPU = subprocess.check_output(cmd, shell = True )
+        CPUL = subprocess.check_output(cmd, shell = True )
+        cmd = "top -bn1 | grep Cpu | awk '{printf \"CPU: %.1f%%\", $2+$4+$6+$10+$12+$14}'"
+        CPUU = subprocess.check_output(cmd, shell = True )
         #cmd = "free -m | awk 'NR==2{printf \"Mem: %s/%sMB %.2f%%\", $3,$2,$3*100/$2 }'"
         cmd = "free -m | awk 'NR==2{printf \"Mem: %s/%sMB\", $3,$2 }'"
         MemUsage = subprocess.check_output(cmd, shell = True )
-        cmd = "df -h | awk '$NF==\"/\"{printf \"Disk: %d/%dGB %s\", $3,$2,$5}'"
-        Disk = subprocess.check_output(cmd, shell = True )
+        #cmd = "df -h | awk '$NF==\"/\"{printf \"Disk: %d/%dGB %s\", $3,$2,$5}'"
+        #Disk = subprocess.check_output(cmd, shell = True )
         cmd = "vcgencmd measure_temp | cut -f 2 -d '='"
         Temp = subprocess.check_output(cmd, shell = True )
 
         # Write Info To Display
         draw.text((x, top),    "IP: " + str(IP,'utf-8'),  font=font, fill=255)
         top = top + padding + size
-        draw.text((x, top),    str(CPU,'utf-8') + " " + str(Temp,'utf-8'), font=font, fill=255)
+        draw.text((x, top),    str(CPUL,'utf-8') + " " + str(Temp,'utf-8'), font=font, fill=255)
+        top = top + padding + size
+        draw.text((x, top),    str(CPUU,'utf-8'),  font=font, fill=255)
         top = top + padding + size
         draw.text((x, top),    str(MemUsage,'utf-8'),  font=font, fill=255)
-        top = top + padding + size
-        draw.text((x, top),    str(Disk,'utf-8'),  font=font, fill=255)
-        top = top + padding + size
 
     if page >= showtime and page < (showtime * 2):
         # Get Display Info
