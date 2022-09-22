@@ -96,6 +96,7 @@ displaytime = 2
 updatetime = .1
 showtime = displaytime / updatetime
 
+global showpage
 showpage = 1
 showpagemax = 3
 
