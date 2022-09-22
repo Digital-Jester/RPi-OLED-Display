@@ -1,3 +1,4 @@
+#!/bin/python3
 # Copyright (c) 2017 Adafruit Industries
 # Author: Tony DiCola & James DeVito
 #
@@ -31,11 +32,10 @@ import subprocess
 
 import RPi.GPIO as GPIO
 
-BUTTON_GPIO = 4
-button_pressed = False
+BUTTON_NEXT_PAGE = 4
 
 GPIO.setmode(GPIO.BCM)
-GPIO.setup(BUTTON_GPIO, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(BUTTON_NEXT_PAGE, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
 # Raspberry Pi pin configuration:
 RST = None     # on the PiOLED this pin isnt used
@@ -74,57 +74,57 @@ time.sleep(3)
 
 # Create blank image for drawing.
 # Make sure to create image with mode '1' for 1-bit color.
-width = disp.width
-height = disp.height
-image = Image.new('1', (width, height))
+image = Image.new('1', (disp.width, disp.height))
 
 # Get drawing object to draw on image.
 draw = ImageDraw.Draw(image)
 
 # Draw a black filled box to clear the image.
-draw.rectangle((0,0,width,height), outline=0, fill=0)
+draw.rectangle((0,0,disp.width,disp.height), outline=0, fill=0)
 
-# Draw some shapes.
-# First define some constants to allow easy resizing of shapes.
-padding = 1
-top = 0
-size = 16
-#bottom = height-padding
+if disp.height == 64:    
+    padding = 1
+    size = 16
+    # Load alt font.
+    font = ImageFont.truetype('PixelOperator.ttf', size)
 
-page = 1
-displaytime = 2
-updatetime = .1
-showtime = displaytime / updatetime
+if disp.height == 32:    
+    padding = 0
+    size = 8
+    # Load default font.
+    font = ImageFont.load_default()
+
+
+updatetime = 0.1
 
 showpage = 1
 showpagemax = 3
+
+x = 0
+y = 0
 
 # Load default font.
 #font = ImageFont.load_default()
 
 # Alternatively load a TTF font.  Make sure the .ttf font file is in the same directory as the python script!
 # Some other nice fonts to try: http://www.dafont.com/bitmap.php
-# font = ImageFont.truetype('Minecraftia.ttf', 8)
-font = ImageFont.truetype('PixelOperator.ttf', 16)
-#font = ImageFont.truetype('STV5730A.ttf', 14)
+#font = ImageFont.truetype('PixelOperator.ttf', 16)
 
 def NextPage(channel):
     global showpage, showpagemax
     showpage += 1
     if showpage > showpagemax:
         showpage = 1
-    print(channel)
 
-GPIO.add_event_detect(BUTTON_GPIO, GPIO.FALLING, callback = NextPage, bouncetime = 2000)
+GPIO.add_event_detect(BUTTON_NEXT_PAGE, GPIO.FALLING, callback = NextPage, bouncetime = 500)
 
 while True:
 
     # Draw a black filled box to clear the image.
-    draw.rectangle((0,0,width,height), outline=0, fill=0)
+    draw.rectangle((0,0,disp.width,disp.height), outline=0, fill=0)
+    
+    y = 0 # Reset Line
 
-    x = 0
-    top = 0
-    #if page < showtime:
     if showpage == 1:
         # Get Display Info
         cmd = "hostname -I | cut -d\' \' -f1"
@@ -142,15 +142,14 @@ while True:
         Temp = subprocess.check_output(cmd, shell = True )
 
         # Write Info To Display
-        draw.text((x, top),    "IP: " + str(IP,'utf-8'),  font=font, fill=255)
-        top = top + padding + size
-        draw.text((x, top),    str(CPUL,'utf-8') + " " + str(Temp,'utf-8'), font=font, fill=255)
-        top = top + padding + size
-        draw.text((x, top),    str(CPUU,'utf-8'),  font=font, fill=255)
-        top = top + padding + size
-        draw.text((x, top),    str(MemUsage,'utf-8'),  font=font, fill=255)
+        draw.text((x, y),    "IP: " + str(IP,'utf-8'),  font=font, fill=255)
+        y = y + padding + size
+        draw.text((x, y),    str(CPUL,'utf-8') + " " + str(Temp,'utf-8'), font=font, fill=255)
+        y = y + padding + size
+        draw.text((x, y),    str(CPUU,'utf-8'),  font=font, fill=255)
+        y = y + padding + size
+        draw.text((x, y),    str(MemUsage,'utf-8'),  font=font, fill=255)
 
-    #if page >= showtime and page < (showtime * 2):
     if showpage == 2:
         # Get Display Info
         cmd = "hostname -I | cut -d\' \' -f1"
@@ -164,16 +163,15 @@ while True:
         Users = subprocess.check_output(cmd, shell = True)
 
         # Write Info To Display
-        draw.text((x, top),    "IP: " + str(IP,'utf-8'),  font=font, fill=255)
-        top = top + padding + size
-        draw.text((x, top),    "Name: " + str(HostName,'utf-8'),  font=font, fill=255)
-        top = top + padding + size
-        draw.text((x, top),    "Uptime: " + str(UpTime,'utf-8'),  font=font, fill=255)
-        top = top + padding + size
-        draw.text((x, top),    "Users: " + str(Users,'utf-8'),  font=font, fill=255)
-        top = top + padding + size
+        draw.text((x, y),    "IP: " + str(IP,'utf-8'),  font=font, fill=255)
+        y = y + padding + size
+        draw.text((x, y),    "Name: " + str(HostName,'utf-8'),  font=font, fill=255)
+        y = y + padding + size
+        draw.text((x, y),    "Uptime: " + str(UpTime,'utf-8'),  font=font, fill=255)
+        y = y + padding + size
+        draw.text((x, y),    "Users: " + str(Users,'utf-8'),  font=font, fill=255)
+        y = y + padding + size
 
-    #if page >= (showtime * 2) and page <= (showtime * 3):
     if showpage == 3:
         # Get Display Info
         cmd = "df -h | grep '/dev/md\|/dev/sd\|/dev/root' | awk '{printf \"%s/%s %s, \", $3,$2,$5}'"
@@ -183,17 +181,13 @@ while True:
         # Write Info To Display
         i = 0
         while i < len(Drv)-1:
-            draw.text((x, top),    "Drv" + str(i) + ": " + Drv[i],  font=font, fill=255)
-            top = top + padding + size
+            draw.text((x, y),    "Drv" + str(i) + ": " + Drv[i],  font=font, fill=255)
+            y = y + padding + size
             i += 1
 
-    #print(page)
     # Display image.
     disp.image(image)
     disp.display()
 
-    page += 1
-    if page > (showtime * 3):
-        page = 1
-
+    # Wait
     time.sleep(updatetime)
