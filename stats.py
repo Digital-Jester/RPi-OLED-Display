@@ -110,14 +110,15 @@ font = ImageFont.truetype('PixelOperator.ttf', 16)
 
 while True:
     # button is pressed when pin is LOW
-    if not GPIO.input(BUTTON_GPIO) and not button_pressed:
-        button_pressed = True
-        showpage += 1
-        #print("Page Inc")
-        if showpage > showpagemax:
-            showpage = 1
+    if not GPIO.input(BUTTON_GPIO):
+        if not button_pressed:
+            button_pressed = True
+            showpage += 1
+            #print("Page Inc")
+            if showpage > showpagemax:
+                showpage = 1
     else:
-            button_pressed = False
+        button_pressed = False
 
     # Draw a black filled box to clear the image.
     draw.rectangle((0,0,width,height), outline=0, fill=0)
