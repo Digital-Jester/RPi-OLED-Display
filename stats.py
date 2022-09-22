@@ -29,6 +29,13 @@ from PIL import ImageFont
 
 import subprocess
 
+import RPi.GPIO as GPIO
+
+BUTTON_GPIO = 4
+
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(BUTTON_GPIO, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+
 # Raspberry Pi pin configuration:
 RST = None     # on the PiOLED this pin isnt used
 
@@ -88,6 +95,9 @@ displaytime = 2
 updatetime = .1
 showtime = displaytime / updatetime
 
+showpage = 1
+showpagemax = 3
+
 # Load default font.
 #font = ImageFont.load_default()
 
@@ -98,13 +108,20 @@ font = ImageFont.truetype('PixelOperator.ttf', 16)
 #font = ImageFont.truetype('STV5730A.ttf', 14)
 
 while True:
+    # button is pressed when pin is LOW
+    if not GPIO.input(BUTTON_GPIO):
+        showpage += 1
+        print("Page Inc")
+        if showpage > showpagemax:
+            showpage = 1
 
     # Draw a black filled box to clear the image.
     draw.rectangle((0,0,width,height), outline=0, fill=0)
 
     x = 0
     top = 0
-    if page < showtime:
+    #if page < showtime:
+    if showpage == 1:
         # Get Display Info
         cmd = "hostname -I | cut -d\' \' -f1"
         IP = subprocess.check_output(cmd, shell = True )
@@ -129,7 +146,8 @@ while True:
         top = top + padding + size
         draw.text((x, top),    str(MemUsage,'utf-8'),  font=font, fill=255)
 
-    if page >= showtime and page < (showtime * 2):
+    #if page >= showtime and page < (showtime * 2):
+    if showpage == 2:
         # Get Display Info
         cmd = "hostname -I | cut -d\' \' -f1"
         IP = subprocess.check_output(cmd, shell = True )
@@ -148,10 +166,11 @@ while True:
         top = top + padding + size
         draw.text((x, top),    "Uptime: " + str(UpTime,'utf-8'),  font=font, fill=255)
         top = top + padding + size
-        draw.text((x, top),    str(Users,'utf-8') + " connected",  font=font, fill=255)
+        draw.text((x, top),    "Users: " + str(Users,'utf-8'),  font=font, fill=255)
         top = top + padding + size
 
-    if page >= (showtime * 2) and page <= (showtime * 3):
+    #if page >= (showtime * 2) and page <= (showtime * 3):
+    if showpage == 3:
         # Get Display Info
         cmd = "df -h | grep '/dev/md\|/dev/sd\|/dev/root' | awk '{printf \"%s/%s %s, \", $3,$2,$5}'"
         DrvUse = str(subprocess.check_output(cmd, shell = True ),'utf-8')
