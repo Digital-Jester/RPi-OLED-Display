@@ -129,9 +129,17 @@ if __name__ == '__main__':
             print ("Exce Shutdown")
             #subprocess.call(["sudo", "shutdown", "-h", "now"])
 
+    def Reboot(channel):
+        print ("Reboot")
+        time.sleep(1)
+        if not GPIO.input(BUTTON_REBOOT):
+            print ("Exce Reboot")
+            #subprocess.call(["sudo", "shutdown", "-r", "now"])
+
 
     GPIO.add_event_detect(BUTTON_NEXT_PAGE, GPIO.FALLING, callback = NextPage, bouncetime = 500)
     GPIO.add_event_detect(BUTTON_SHUTDOWN, GPIO.FALLING, callback = ShutDown, bouncetime = 2500)
+    GPIO.add_event_detect(BUTTON_REBOOT, GPIO.FALLING, callback = Reboot, bouncetime = 1500)
 
     while True:
 
