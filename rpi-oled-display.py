@@ -35,9 +35,13 @@ import RPi.GPIO as GPIO
 
 if __name__ == '__main__':
     BUTTON_NEXT_PAGE = 4
+    BUTTON_SHUTDOWN = 17
+    BUTTON_REBOOT = 27
 
     GPIO.setmode(GPIO.BCM)
     GPIO.setup(BUTTON_NEXT_PAGE, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+    GPIO.setup(BUTTON_SHUTDOWN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+    GPIO.setup(BUTTON_REBOOT, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
     # Raspberry Pi pin configuration:
     RST = None     # on the PiOLED this pin isnt used
@@ -118,7 +122,16 @@ if __name__ == '__main__':
         if showpage > showpagemax:
             showpage = 1
 
+    def ShutDown(channel):
+        print ("ShutDown")
+        time.sleep(2)
+        if not GPIO.input(BUTTON_SHUTDOWN):
+            print ("Exce Shutdown")
+            #subprocess.call(["sudo", "shutdown", "-h", "now"])
+
+
     GPIO.add_event_detect(BUTTON_NEXT_PAGE, GPIO.FALLING, callback = NextPage, bouncetime = 500)
+    GPIO.add_event_detect(BUTTON_SHUTDOWN, GPIO.FALLING, callback = ShutDown, bouncetime = 2500)
 
     while True:
 
