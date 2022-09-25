@@ -1,0 +1,13 @@
+[Unit]
+Description=RPi OLED Display with GPIO button functionality.
+
+[Service]
+Type=simple
+User=pi
+ExecStart=/usr/local/bin/rpi-oled/rpi-oled-display.py
+KillMode=process
+Restart=always
+RestartSec=2
+
+[Install]
+WantedBy=multi-user.target
