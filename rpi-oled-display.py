@@ -34,35 +34,39 @@ import subprocess
 import RPi.GPIO as GPIO
 
 if __name__ == '__main__':
+    # Define GPIO Numbers For Button Inputs
     BUTTON_NEXT_PAGE = 4
     BUTTON_SHUTDOWN = 17
     BUTTON_REBOOT = 27
 
+    # Define OLED Reset Pin
+    RST = None     # on the PiOLED this pin isnt used
+    # Be aglebone Black pin configuration:
+    # RST = 'P9_12'
+
+    # Setup GPIO Pin Mode
     GPIO.setmode(GPIO.BCM)
+    # Setup GPIO Pins For Use
     GPIO.setup(BUTTON_NEXT_PAGE, GPIO.IN, pull_up_down=GPIO.PUD_UP)
     GPIO.setup(BUTTON_SHUTDOWN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
     GPIO.setup(BUTTON_REBOOT, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
-    # Raspberry Pi pin configuration:
-    RST = None     # on the PiOLED this pin isnt used
-
-    # Be aglebone Black pin configuration:
-    # RST = 'P9_12'
-
+    # Setup OLED For Use
+    # /////////////////////////////////////////////////////////////////////////////
     # 128x32 display with hardware I2C:
     # disp = Adafruit_SSD1306.SSD1306_128_32(rst=RST)
-
+    # /////////////////////////////////////////////////////////////////////////////
     # 128x64 display with hardware I2C:
     disp = Adafruit_SSD1306.SSD1306_128_64(rst=RST)
-
+    # /////////////////////////////////////////////////////////////////////////////
     # Note you can change the I2C address by passing an i2c_address parameter like:
     # disp = Adafruit_SSD1306.SSD1306_128_64(rst=RST, i2c_address=0x3C)
-
+    # /////////////////////////////////////////////////////////////////////////////
     # Alternatively you can specify an explicit I2C bus number, for example
     # with the 128x32 display you would use:
     # disp = Adafruit_SSD1306.SSD1306_128_32(rst=RST, i2c_bus=2)
 
-    # Initialize library.
+    # Initialize The OLED Display.
     disp.begin()
 
     # Clear display.
@@ -88,12 +92,14 @@ if __name__ == '__main__':
     # Draw a black filled box to clear the image.
     draw.rectangle((0,0,disp.width,disp.height), outline=0, fill=0)
 
+    # Setup for display height.
     if disp.height == 64:    
         padding = 1
         size = 16
         # Load alt font.
         font = ImageFont.truetype('PixelOperator.ttf', size)
 
+    # Setup for display height.
     if disp.height == 32:    
         padding = 0
         size = 8
@@ -123,18 +129,18 @@ if __name__ == '__main__':
             showpage = 1
 
     def ShutDown(channel):
-        print ("ShutDown")
+        #print ("ShutDown")
         time.sleep(2)
         if not GPIO.input(BUTTON_SHUTDOWN):
-            print ("Exce Shutdown")
-            #subprocess.call(["sudo", "shutdown", "-h", "now"])
+            #print ("Exce Shutdown")
+            subprocess.call(["sudo", "shutdown", "-h", "now"])
 
     def Reboot(channel):
-        print ("Reboot")
+        #print ("Reboot")
         time.sleep(1)
         if not GPIO.input(BUTTON_REBOOT):
-            print ("Exce Reboot")
-            #subprocess.call(["sudo", "shutdown", "-r", "now"])
+            #print ("Exce Reboot")
+            subprocess.call(["sudo", "shutdown", "-r", "now"])
 
 
     GPIO.add_event_detect(BUTTON_NEXT_PAGE, GPIO.FALLING, callback = NextPage, bouncetime = 500)
@@ -184,6 +190,9 @@ if __name__ == '__main__':
             UpTime = subprocess.check_output(cmd, shell = True )
             cmd = "uptime |cut -d , -f 3|awk '{print $1}'"
             Users = subprocess.check_output(cmd, shell = True)
+            if Users == "load":
+                cmd = "uptime |cut -d , -f 2|awk '{print $1}'"
+                Users = subprocess.check_output(cmd, shell = True)
 
             # Write Info To Display
             draw.text((x, y),    "IP: " + str(IP,'utf-8'),  font=font, fill=255)
