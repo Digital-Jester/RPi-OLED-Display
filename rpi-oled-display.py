@@ -75,7 +75,7 @@ if __name__ == '__main__':
 
     # RPi Splash
     # Alternatively load a different format image, resize it, and convert to 1 bit color.
-    image = Image.open('./pi_logo.png').resize((disp.width, disp.height), Image.ANTIALIAS).convert('1')
+    image = Image.open('pi_logo.png').resize((disp.width, disp.height), Image.ANTIALIAS).convert('1')
 
     # Display image.
     disp.image(image)
