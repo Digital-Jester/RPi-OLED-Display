@@ -93,14 +93,14 @@ if __name__ == '__main__':
     draw.rectangle((0,0,disp.width,disp.height), outline=0, fill=0)
 
     # Setup for display height.
-    if disp.height == 64:    
+    if disp.height == 64:
         padding = 1
         size = 16
         # Load alt font.
         font = ImageFont.truetype('PixelOperator.ttf', size)
 
     # Setup for display height.
-    if disp.height == 32:    
+    if disp.height == 32:
         padding = 0
         size = 8
         # Load default font.
@@ -151,7 +151,7 @@ if __name__ == '__main__':
 
         # Draw a black filled box to clear the image.
         draw.rectangle((0,0,disp.width,disp.height), outline=0, fill=0)
-    
+
         y = 0 # Reset Line
 
         if showpage == 1:
@@ -190,7 +190,7 @@ if __name__ == '__main__':
             UpTime = subprocess.check_output(cmd, shell = True )
             cmd = "uptime |cut -d , -f 3|awk '{print $1}'"
             Users = subprocess.check_output(cmd, shell = True)
-            if Users == "load":
+            if Users.__contains__("load"):
                 cmd = "uptime |cut -d , -f 2|awk '{print $1}'"
                 Users = subprocess.check_output(cmd, shell = True)
 
