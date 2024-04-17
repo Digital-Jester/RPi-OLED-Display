@@ -102,10 +102,9 @@ if __name__ == '__main__':
     # Setup for display height.
     if disp.height == 32:
         padding = 0
-        size = 8
+        size = 7
         # Load default font.
         font = ImageFont.load_default()
-        #font = ImageFont.truetype('PublicPixel.ttf', size)
 
 
     updatetime = 0.1
