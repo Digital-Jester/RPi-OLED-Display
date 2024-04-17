@@ -44,7 +44,7 @@ if __name__ == '__main__':
 
     # Setup GPIO Pin Mode
     GPIO.setmode(GPIO.BCM)
-    
+
     # Setup GPIO Pins For Use
     GPIO.setup(BUTTON_NEXT_PAGE, GPIO.IN, pull_up_down=GPIO.PUD_UP)
     GPIO.setup(BUTTON_SHUTDOWN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
@@ -74,7 +74,7 @@ if __name__ == '__main__':
 
     # RPi Splash
     # Alternatively load a different format image, resize it, and convert to 1 bit color.
-    image = Image.open('pi_logo.png').resize((disp.width, disp.height), Image.ANTIALIAS).convert('1')
+    image = Image.open('./pi_logo.png').resize((disp.width, disp.height), Image.ANTIALIAS).convert('1')
 
     # Display image.
     disp.image(image)
