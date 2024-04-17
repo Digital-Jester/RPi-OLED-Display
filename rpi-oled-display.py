@@ -104,7 +104,8 @@ if __name__ == '__main__':
         padding = 0
         size = 8
         # Load default font.
-        font = ImageFont.load_default()
+        #font = ImageFont.load_default(size)
+        font = ImageFont.truetype('PixelOperator8.ttf', size)
 
 
     updatetime = 0.1
@@ -190,7 +191,7 @@ if __name__ == '__main__':
             UpTime = subprocess.check_output(cmd, shell = True )
             cmd = "uptime |cut -d , -f 3|awk '{print $1}'"
             Users = subprocess.check_output(cmd, shell = True)
-            if Users.__contains__("load"):
+            if not isinstance(Users,int): # If uptime is less than a day
                 cmd = "uptime |cut -d , -f 2|awk '{print $1}'"
                 Users = subprocess.check_output(cmd, shell = True)
 
