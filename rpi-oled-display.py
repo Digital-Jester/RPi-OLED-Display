@@ -104,8 +104,8 @@ if __name__ == '__main__':
         padding = 0
         size = 8
         # Load default font.
-        #font = ImageFont.load_default(size)
-        font = ImageFont.truetype('PublicPixel.ttf', size)
+        font = ImageFont.load_default()
+        #font = ImageFont.truetype('PublicPixel.ttf', size)
 
 
     updatetime = 0.1
