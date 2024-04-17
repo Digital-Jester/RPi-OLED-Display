@@ -74,7 +74,7 @@ if __name__ == '__main__':
 
     # RPi Splash
     # Alternatively load a different format image, resize it, and convert to 1 bit color.
-    image = Image.open('./pi_logo.png').resize((disp.width, disp.height), Image.ANTIALIAS).convert('1')
+    image = Image.open('/usr/local/bin/rpi-oled/pi_logo.png').resize((disp.width, disp.height), Image.ANTIALIAS).convert('1')
 
     # Display image.
     disp.image(image)
@@ -100,18 +100,19 @@ if __name__ == '__main__':
         # font = ImageFont.load_default()
 
         # Load alt font.
-        font = ImageFont.truetype('PixelOperator.ttf', size)
+        font = ImageFont.truetype('/usr/local/bin/rpi-oled/PixelOperator.ttf', size)
 
     # Setup for display height.
     if disp.height == 32:
         padding = 0
-        size = 8
+        size = 10
 
         # Load default font.
         # font = ImageFont.load_default()
 
         # Load alt font.
-        font = ImageFont.truetype('PixelOperator8.ttf', size)
+        # font = ImageFont.truetype('/usr/local/bin/rpi-oled/PixelOperator8.ttf', size)
+        font = ImageFont.truetype('/usr/local/bin/rpi-oled/kubasta.ttf', size)
 
     # print(disp.height)
 
