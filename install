@@ -57,8 +57,8 @@ fi
 sudo cp $MYDIR/rpi-oled-display.py /usr/local/bin/rpi-oled
 sudo cp $MYDIR/pi_logo.png /usr/local/bin/rpi-oled
 sudo cp $MYDIR/PixelOperator.ttf /usr/local/bin/rpi-oled
-sudo cp $MYDIR/PixelOperator8-Bold.ttf /usr/local/bin/rpi-oled
-# sudo cp $MYDIR/kubasta.ttf /usr/local/bin/rpi-oled
+# sudo cp $MYDIR/PixelOperator8.ttf /usr/local/bin/rpi-oled
+sudo cp $MYDIR/dogica.ttf /usr/local/bin/rpi-oled
 sudo cp $MYDIR/rpi-oled-display.service /lib/systemd/system/
 
 echo "enabling service"

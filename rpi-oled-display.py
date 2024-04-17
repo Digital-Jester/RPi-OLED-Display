@@ -111,8 +111,8 @@ if __name__ == '__main__':
         # font = ImageFont.load_default()
 
         # Load alt font.
-        font = ImageFont.truetype('/usr/local/bin/rpi-oled/PixelOperator8-Bold.ttf', size)
-        # font = ImageFont.truetype('/usr/local/bin/rpi-oled/kubasta.ttf', size)
+        # font = ImageFont.truetype('/usr/local/bin/rpi-oled/PixelOperator8.ttf', size)
+        font = ImageFont.truetype('/usr/local/bin/rpi-oled/dogica.ttf', size)
 
     # print(disp.height)
 
