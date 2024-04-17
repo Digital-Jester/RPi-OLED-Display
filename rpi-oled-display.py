@@ -107,6 +107,7 @@ if __name__ == '__main__':
         font = ImageFont.load_default()
         # font = ImageFont.truetype('dogica.ttf')
 
+    print(disp.height)
 
     updatetime = 0.1
 
