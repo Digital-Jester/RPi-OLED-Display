@@ -96,6 +96,10 @@ if __name__ == '__main__':
     if disp.height == 64:
         padding = 1
         size = 16
+        
+        # Load default font.
+        # font = ImageFont.load_default()
+
         # Load alt font.
         font = ImageFont.truetype('PixelOperator.ttf', size)
 
@@ -103,9 +107,12 @@ if __name__ == '__main__':
     if disp.height == 32:
         padding = 0
         size = 8
+
         # Load default font.
-        font = ImageFont.load_default()
-        # font = ImageFont.truetype('dogica.ttf')
+        # font = ImageFont.load_default()
+
+        # Load alt font.
+        font = ImageFont.truetype('PixelOperator8.ttf', size)
 
     # print(disp.height)
 
