@@ -20,18 +20,15 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
-import time
 
+import time
+import subprocess
+import RPi.GPIO as GPIO
 #import Adafruit_GPIO.SPI as SPI
 import Adafruit_SSD1306
-
 from PIL import Image
 from PIL import ImageDraw
 from PIL import ImageFont
-
-import subprocess
-
-import RPi.GPIO as GPIO
 
 # Define GPIO Numbers For Button Inputs
 BUTTON_NEXT_PAGE = 4
@@ -44,8 +41,10 @@ RST = None     # on the PiOLED this pin isnt used
 # RST = 'P9_12'
 
 if __name__ == '__main__':
+
     # Setup GPIO Pin Mode
     GPIO.setmode(GPIO.BCM)
+    
     # Setup GPIO Pins For Use
     GPIO.setup(BUTTON_NEXT_PAGE, GPIO.IN, pull_up_down=GPIO.PUD_UP)
     GPIO.setup(BUTTON_SHUTDOWN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
@@ -96,7 +95,7 @@ if __name__ == '__main__':
     if disp.height == 64:
         padding = 1
         size = 16
-        
+
         # Load default font.
         # font = ImageFont.load_default()
 

@@ -37,6 +37,7 @@ sudo mkdir /usr/local/bin/rpi-oled
 sudo cp $MYDIR/rpi-oled-display.py /usr/local/bin/rpi-oled
 sudo cp $MYDIR/pi_logo.png /usr/local/bin/rpi-oled
 sudo cp $MYDIR/PixelOperator.ttf /usr/local/bin/rpi-oled
+sudo cp $MYDIR/PixelOperator8.ttf /usr/local/bin/rpi-oled
 sudo cp $MYDIR/rpi-oled-display.service /lib/systemd/system/
 
 echo "enabling service"
