@@ -105,7 +105,7 @@ if __name__ == '__main__':
         size = 8
         # Load default font.
         #font = ImageFont.load_default(size)
-        font = ImageFont.truetype('PixelOperator8.ttf', size)
+        font = ImageFont.truetype('PixelOperator8.ttf')
 
 
     updatetime = 0.1
