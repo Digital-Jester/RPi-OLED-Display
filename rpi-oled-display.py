@@ -105,14 +105,14 @@ if __name__ == '__main__':
     # Setup for display height.
     if disp.height == 32:
         padding = 0
-        size = 10
+        size = 8
 
         # Load default font.
         # font = ImageFont.load_default()
 
         # Load alt font.
-        # font = ImageFont.truetype('/usr/local/bin/rpi-oled/PixelOperator8.ttf', size)
-        font = ImageFont.truetype('/usr/local/bin/rpi-oled/kubasta.ttf', size)
+        font = ImageFont.truetype('/usr/local/bin/rpi-oled/PixelOperator8-Bold.ttf', size)
+        # font = ImageFont.truetype('/usr/local/bin/rpi-oled/kubasta.ttf', size)
 
     # print(disp.height)
 
