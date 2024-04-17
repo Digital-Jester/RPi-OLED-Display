@@ -32,7 +32,7 @@ if [[ $tool == "" ]]; then
     sudo apt-get install -y python3 python3-pip python3-pil python3-pil.imagetk
 fi
 
-if [ -e "~/Adafruit_Python_SSD1306/.git" ]; then
+if [ -f "~/Adafruit_Python_SSD1306/.git" ]; then
     echo "Adafruit_Python_SSD1306 already exists"
 else
     cd ~
@@ -58,7 +58,6 @@ sudo cp $MYDIR/rpi-oled-display.py /usr/local/bin/rpi-oled
 sudo cp $MYDIR/pi_logo.png /usr/local/bin/rpi-oled
 sudo cp $MYDIR/PixelOperator.ttf /usr/local/bin/rpi-oled
 sudo cp $MYDIR/PixelOperator8.ttf /usr/local/bin/rpi-oled
-# sudo cp $MYDIR/dogica.ttf /usr/local/bin/rpi-oled
 sudo cp $MYDIR/rpi-oled-display.service /lib/systemd/system/
 
 echo "enabling service"
